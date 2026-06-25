@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatri 2.0 - Create Account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            /* Kept your local image routing */
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('ghanta_ghar.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 20px 0; /* Added slight padding for scrolling on smaller screens */
+        }
+        
+        /* Renamed to auth-container for semantic accuracy, but styles are identical */
+        .auth-container {
+            background: rgba(30, 30, 30, 0.85);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            max-width: 480px; /* Slightly wider to accommodate more fields nicely */
+            width: 100%;
+        }
+        
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .logo-section h1 {
+            color: #C9A961;
+            font-weight: 700;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        
+        .logo-section p {
+            color: #ccc;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-label {
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-control {
+            border: 2px solid #555;
+            border-radius: 8px;
+            padding: 12px 15px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        
+        .form-control:focus {
+            border-color: #C9A961;
+            box-shadow: 0 0 0 0.2rem rgba(201, 169, 97, 0.25);
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        
+        .form-control::placeholder {
+            color: #999;
+        }
+
+        .input-group .form-control {
+            border-right: none;
+            border-top-right-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+        
+        .btn-toggle {
+            border: 2px solid #555;
+            border-left: none;
+            background: rgba(255, 255, 255, 0.1);
+            color: #C9A961;
+            font-weight: 600;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            padding: 0 15px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus + .btn-toggle {
+            border-color: #C9A961;
+            background: rgba(255, 255, 255, 0.15);
+        }
+        
+        .form-check {
+            margin-bottom: 20px;
+        }
+        
+        .form-check-input {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #e0e0e0;
+            cursor: pointer;
+            background-color: transparent;
+        }
+        
+        .form-check-input:checked {
+            background-color: #C9A961;
+            border-color: #C9A961;
+        }
+        
+        .form-check-label {
+            color: #ddd;
+            font-size: 14px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+
+        /* Highlight for the premium badge */
+        .premium-text {
+            color: #C9A961;
+            font-weight: 600;
+        }
+        
+        .btn-auth {
+            background: linear-gradient(135deg, #C9A961 0%, #B8860B 100%);
+            border: none;
+            color: #333;
+            font-weight: 600;
+            padding: 12px 20px;
+            border-radius: 8px;
+            width: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            margin-top: 10px;
+        }
+        
+        .btn-auth:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(201, 169, 97, 0.5);
+            color: #333;
+        }
+        
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+        
+        .auth-link p {
+            color: #ddd;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        .auth-link a {
+            color: #C9A961;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: rgba(220, 53, 69, 0.2);
+            border: 1px solid #dc3545;
+            color: #ff6b6b;
+        }
+        
+        @media (max-width: 480px) {
+            .auth-container {
+                padding: 30px 20px;
+            }
+            .logo-section h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Logo Section -->
+        <div class="logo-section">
+            <h1>🚂 Yatri 2.0</h1>
+            <p>Register for a new account</p>
+        </div>
+        
+        <!-- Alert for error messages -->
+        <div id="errorAlert" class="alert alert-danger d-none" role="alert" aria-live="polite">
+            <span id="errorMessage"></span>
+        </div>
+        
+        <!-- Signup Form -->
+        <form id="signupForm" action="/register" method="POST">
+            
+            <!-- Full Name Field -->
+            <div class="form-group">
+                <label for="fullName" class="form-label">Full Name</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="fullName" 
+                    name="full_name" 
+                    placeholder="Aditya Raj"
+                    required
+                >
+            </div>
+
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address</label>
+                <input 
+                    type="email" 
+                    class="form-control" 
+                    id="email" 
+                    name="email" 
+                    placeholder="Aditya@gmail.com"
+                    required
+                >
+            </div>
+            
+            <!-- Password Field with Toggle -->
+            <div class="form-group">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        class="form-control toggle-target" 
+                        id="password" 
+                        name="password" 
+                        placeholder="MnC@Bjp123"
+                        required
+                    >
+                    <button class="btn btn-toggle" type="button">Show</button>
+                </div>
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                <label for="confirmPassword" class="form-label">Confirm Password</label>
+                <div class="input-group">
+                    <input 
+                        type="password" 
+                        class="form-control toggle-target" 
+                        id="confirmPassword" 
+                        placeholder="Confirm your password"
+                        required
+                    >
+                    <button class="btn btn-toggle" type="button">Show</button>
+                </div>
+            </div>
+            <!-- Security Question and Answer Fields -->
+            <div class="form-group">
+                <label for="securityQuestion" class="form-label">Security Question <small class="text-muted">(For Password Reset)</small></label>
+                <select class="form-control" id="securityQuestion" name="security_question" required>
+                    <option value="" selected disabled style="color: #999;">Select a question...</option>
+                    <option value="What is your pet's name?" style="background: #302b63; color: white;">What is your pet's name?</option>
+                    <option value="What city were you born in?" style="background: #302b63; color: white;">What city were you born in?</option>
+                    <option value="What is your favorite food?" style="background: #302b63; color: white;">What is your favorite food?</option>
+                    <option value="What was the name of your first school?" style="background: #302b63; color: white;">What was the name of your first school?</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="securityAnswer" class="form-label">Your Answer</label>
+                <input 
+                    type="text" 
+                    class="form-control" 
+                    id="securityAnswer" 
+                    name="security_answer" 
+                    placeholder="Enter your answer"
+                    required
+                >
+            </div>
+            <!-- Premium Tier Checkbox (Maps to is_premium boolean in DB) -->
+            <div class="form-check mt-4 mb-4">
+                <input 
+                    class="form-check-input" 
+                    type="checkbox" 
+                    id="isPremium" 
+                    name="is_premium"
+                    value="true"
+                >
+                <label class="form-check-label" for="isPremium">
+                    Apply for <span class="premium-text">Premium Tier</span> (Automatic Booking Discounts)
+                </label>
+            </div>
+            
+            <!-- Register Button -->
+            <button type="submit" class="btn btn-auth">Create Account</button>
+        </form>
+        
+        <!-- Login Link -->
+        <div class="auth-link">
+            <p>Already have an account? <a href="index.html">Sign in here</a></p>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // 1. Password Toggle Logic (Now works for multiple buttons on the page)
+        const toggleButtons = document.querySelectorAll('.btn-toggle');
+        
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Find the input right next to this specific button
+                const input = this.previousElementSibling;
+                const type = input.getAttribute('type') === 'password' ? 'text' : 'password';
+                input.setAttribute('type', type);
+                
+                this.textContent = type === 'password' ? 'Show' : 'Hide';
+            });
+        });
+
+        // 2. Client-side form validation for matching passwords
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                // Prevent form from submitting to the server
+                e.preventDefault(); 
+                
+                // Show the error alert
+                const alertDiv = document.getElementById('errorAlert');
+                const errorSpan = document.getElementById('errorMessage');
+                
+                errorSpan.textContent = "Passwords do not match. Please try again.";
+                alertDiv.classList.remove('d-none');
+            }
+        });
+    </script>
+</body>
+</html>

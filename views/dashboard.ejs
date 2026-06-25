@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatri 2.0 - Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        
+        /* Premium Navbar */
+        .navbar {
+            background: rgba(15, 12, 41, 0.98) !important;
+            border-bottom: 2px solid #FFD700;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+        }
+        
+        .navbar-brand {
+            color: #FFD700 !important;
+            font-weight: 700;
+            font-size: 24px;
+            transition: all 0.3s ease;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .welcome-text {
+            color: #b0b0b0;
+            margin-right: 20px;
+            font-size: 14px;
+        }
+
+        .btn-outline-light {
+            transition: all 0.3s ease;
+        }
+
+        .btn-outline-light:hover {
+            background: #FFD700;
+            color: #1a1a1a !important;
+            border-color: #FFD700;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 60px 20px;
+            min-height: calc(100vh - 200px);
+        }
+
+        /* Header Section */
+        .header-section {
+            margin-bottom: 50px;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .header-section h1 {
+            color: #FFD700;
+            font-weight: 700;
+            font-size: 36px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header-section p {
+            color: #b0b0b0;
+            font-size: 16px;
+        }
+        
+        /* Quick Action Cards */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .action-card {
+            background: rgba(48, 43, 99, 0.5);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 12px;
+            padding: 30px 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            border-color: #FFD700;
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.15);
+        }
+
+        .action-icon {
+            font-size: 36px;
+            color: #FFD700;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .action-card:hover .action-icon {
+            transform: scale(1.2);
+        }
+
+        .action-card h4 {
+            color: #fff;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .action-card p {
+            color: #b0b0b0;
+            font-size: 14px;
+            margin: 0;
+        }
+        
+        /* Search Card */
+        .search-card {
+            background: rgba(48, 43, 99, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            margin-bottom: 50px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .search-card h2 {
+            color: #FFD700;
+            font-weight: 700;
+            margin-bottom: 30px;
+            font-size: 24px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #e0e0e0;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .form-control, .form-select {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            padding: 12px 15px;
+        }
+
+        .date-group .form-control {
+            border-left: 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .date-group .input-group-text {
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-right: 0;
+            border-radius: 8px 0 0 8px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #FFD700;
+        }
+
+        .btn-chip {
+            border-radius: 999px;
+            font-size: 0.9rem;
+            padding: 8px 16px;
+            min-width: 95px;
+            transition: all 0.25s ease;
+        }
+
+        .btn-chip.active,
+        .btn-chip:hover {
+            background: #FFD700;
+            color: #1a1a1a;
+            border-color: #FFD700;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #FFD700;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-select option {
+            background: #302b63;
+            color: #fff;
+        }
+
+        .btn-search {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            border: none;
+            color: #1a1a1a;
+            font-weight: 700;
+            padding: 14px 35px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            width: 100%;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-search:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(255, 215, 0, 0.4);
+            color: #1a1a1a;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(15, 12, 41, 0.9);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 30px 20px;
+            text-align: center;
+            color: #b0b0b0;
+            font-size: 14px;
+        }
+
+        .footer a {
+            color: #FFD700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Animations */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-section h1 {
+                font-size: 28px;
+            }
+
+            .search-card {
+                padding: 25px;
+            }
+
+            .main-content {
+                padding: 30px 15px;
+            }
+
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Bootstrap Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid px-4">
+            <a class="navbar-brand" href="#"><i class="fas fa-train"></i> Yatri 2.0</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <div class="d-flex align-items-center gap-3">
+                    <span class="welcome-text"><i class="fas fa-user-circle"></i> Welcome, <strong><%= name %></strong></span>
+                    <!-- NEW PROFILE BUTTON -->
+                    <a href="/profile" class="btn btn-outline-warning btn-sm"><i class="fas fa-user"></i> My Profile</a>
+                    <a href="/logout" class="btn btn-outline-light btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="main-content container-fluid">
+        <div class="row justify-content-center">
+            <div class="col-lg-11">
+
+                <!-- Header -->
+                <div class="header-section">
+                    <h1><i class="fas fa-compass"></i> Your Journey Starts Here</h1>
+                    <p>Find the perfect train and book your ticket in seconds</p>
+                </div>
+
+                <!-- Quick Actions -->
+                <!-- Quick Actions -->
+                <div class="quick-actions">
+                    <!-- Added a special class 'scroll-to-search' here -->
+                    <div class="action-card scroll-to-search">
+                        <div class="action-icon"><i class="fas fa-search"></i></div>
+                        <h4>Find Trains</h4>
+                        <p>Search and explore available trains</p>
+                    </div>
+                    <!-- Added onclick navigation to the new route -->
+                    <div class="action-card" onclick="window.location.href='/profile'">
+                        <div class="action-icon"><i class="fas fa-ticket-alt"></i></div>
+                        <h4>My Bookings</h4>
+                        <p>View and manage your reservations</p>
+                    </div>
+                    <!-- Added onclick navigation to the new route -->
+                    <div class="action-card" onclick="window.location.href='/profile'">
+                        <div class="action-icon"><i class="fas fa-user"></i></div>
+                        <h4>My Profile</h4>
+                        <p>Update your account details</p>
+                    </div>
+                </div>
+                
+                <!-- Search Card -->
+                <div class="search-card">
+                    <h2><i class="fas fa-map-marker-alt"></i> Book Your Journey</h2>
+                    
+                    <form action="/search" method="POST">
+                        <div class="row g-4">
+                            
+                            <!-- Source Station -->
+                            <div class="col-md-4">
+                                <label for="source" class="form-label">From Station</label>
+                                <select class="form-select form-select-lg" id="source" name="source" required>
+                                    <option value="" selected disabled>Select Origin</option>
+                                    <% stations.forEach(station => { %>
+                                        <option value="<%= station.station_code %>">
+                                            <%= station.station_name %> (<%= station.station_code %>)
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+                            <!-- Destination Station -->
+                            <div class="col-md-4">
+                                <label for="destination" class="form-label">To Station</label>
+                                <select class="form-select form-select-lg" id="destination" name="destination" required>
+                                    <option value="" selected disabled>Select Destination</option>
+                                    <% stations.forEach(station => { %>
+                                        <option value="<%= station.station_code %>">
+                                            <%= station.station_name %> (<%= station.station_code %>)
+                                        </option>
+                                    <% }) %>
+                                </select>
+                            </div>
+
+                            <!-- Journey Date -->
+                            <div class="col-md-4">
+                                <label for="date" class="form-label">Journey Date</label>
+                                <div class="input-group date-group">
+                                    <span class="input-group-text bg-transparent border-0 text-warning"><i class="fas fa-calendar-alt"></i></span>
+                                    <input type="date" class="form-control form-control-lg" id="date" name="date" required>
+                                </div>
+                                <div class="date-presets mt-3 d-flex gap-2 flex-wrap">
+                                    <button type="button" class="btn btn-outline-warning btn-chip" data-date="today">Today</button>
+                                    <button type="button" class="btn btn-outline-warning btn-chip" data-date="tomorrow">Tomorrow</button>
+                                    <button type="button" class="btn btn-outline-warning btn-chip" data-date="nextWeek">Next Week</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="text-center mt-5" >
+                            <button type="submit" class="btn btn-search btn-lg w-md" style="max-width: 400px; "><i class="fas fa-search"></i> Search Trains</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p><i class="fas fa-copyright"></i> 2026 Indian Railways. All rights reserved. | <a href="#"><i class="fas fa-lock"></i> Privacy Policy</a></p>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Restrict past dates + smooth interactions -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dateInput = document.getElementById('date');
+            const today = new Date().toISOString().split('T')[0];
+            dateInput.setAttribute('min', today);
+
+            const presetButtons = document.querySelectorAll('.btn-chip');
+            const dateMap = {
+                today: today,
+                tomorrow: new Date(Date.now() + 86400000).toISOString().split('T')[0],
+                nextWeek: new Date(Date.now() + 7 * 86400000).toISOString().split('T')[0],
+            };
+
+            presetButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    presetButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
+                    dateInput.value = dateMap[button.dataset.date];
+                    dateInput.focus();
+                });
+            });
+            
+            // Smooth scroll for quick action cards
+           // Smooth scroll for quick action cards
+            document.querySelectorAll('.scroll-to-search').forEach(card => {
+                card.addEventListener('click', function() {
+                    document.querySelector('.search-card').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yatri 2.0 - My Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+            padding-bottom: 50px;
+        }
+        .navbar {
+            background: rgba(15, 12, 41, 0.98) !important;
+            border-bottom: 2px solid #FFD700;
+        }
+        .profile-card {
+            background: rgba(48, 43, 99, 0.6);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+        }
+        .history-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 20px;
+            transition: transform 0.2s, background 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .history-card:hover {
+            background: rgba(255, 215, 0, 0.05);
+            border-color: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark mb-5">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-train"></i> Yatri 2.0</a>
+            <div>
+                <a href="/dashboard" class="btn btn-outline-light btn-sm me-2"><i class="fas fa-search"></i> Book Tickets</a>
+                <a href="/logout" class="btn btn-danger btn-sm"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            
+            <div class="col-md-4 mb-4">
+                <div class="profile-card">
+                    <h3 style="color: #FFD700;"><i class="fas fa-user-circle"></i> <%= user.full_name %></h3>
+                    <p class="text-light mb-4"><i class="fas fa-envelope"></i> <%= user.email %></p>
+                    
+                    <hr style="border-color: rgba(255,255,255,0.2);">
+                    
+                    <% if (user.is_premium) { %>
+                        <div class="alert alert-success mt-4" style="background: rgba(0, 230, 118, 0.15); border: 1px solid #00e676; color: #00e676;">
+                            <h5 class="mb-1"><i class="fas fa-crown"></i> Premium Member</h5>
+                            <small>Valid until: <%= user.premium_expiry ? new Date(user.premium_expiry).toLocaleDateString() : 'N/A' %></small>
+                            <p class="mt-2 mb-0" style="font-size: 13px; color: #fff;">Enjoying 5% off all bookings!</p>
+                        </div>
+                    <% } else { %>
+                        <div class="alert alert-secondary mt-4" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: #fff;">
+                            <h5 class="mb-2"><i class="fas fa-info-circle"></i> Standard Account</h5>
+                            <p style="font-size: 14px; color: #b0b0b0;">Upgrade to Premium to get a flat 5% discount on all future bookings.</p>
+                            <form action="/buy-premium" method="POST">
+                                <button type="submit" class="btn btn-warning w-100 fw-bold mt-2">
+                                    <i class="fas fa-crown"></i> Buy Premium (₹999/yr)
+                                </button>
+                            </form>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <h4 style="color: #FFD700; border-bottom: 2px solid rgba(255,215,0,0.3); padding-bottom: 10px; margin-bottom: 20px;">
+                    <i class="fas fa-ticket-alt"></i> My Travel History
+                </h4>
+
+                <% if (bookings.length === 0) { %>
+                    <div class="alert text-center" style="background: rgba(255,255,255,0.05); color: #b0b0b0; border: 1px dashed rgba(255,255,255,0.2);">
+                        <i class="fas fa-suitcase-rolling fa-2x mb-3 mt-2 d-block"></i>
+                        You haven't booked any tickets yet. Time to plan a trip!
+                    </div>
+                <% } else { %>
+                    <% bookings.forEach(ticket => { %>
+                        <div class="history-card mb-3">
+                            <div>
+                                <h5 class="mb-1" style="color: #FFD700;"><%= ticket.train_name %> <span style="font-size: 14px; color: #b0b0b0;">(#<%= ticket.train_no %>)</span></h5>
+                                <p class="mb-1 text-light" style="font-size: 16px;">
+                                    <strong><%= ticket.source %></strong> <i class="fas fa-arrow-right mx-1" style="color: #666;"></i> <strong><%= ticket.destination %></strong>
+                                </p>
+                                <small style="color: #a0a0a0;">
+                                    Journey: <strong><%= new Date(ticket.journey_date).toLocaleDateString() %></strong> | PNR: <%= ticket.pnr %> | Fare: ₹<%= ticket.fare %>
+                                </small>
+                            </div>
+                            <div class="text-end">
+                                <span class="badge bg-success mb-2 p-2 px-3"><%= ticket.status %></span><br>
+                                <a href="/ticket/<%= ticket.pnr %>" class="btn btn-outline-warning btn-sm">View Ticket</a>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } %>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>
