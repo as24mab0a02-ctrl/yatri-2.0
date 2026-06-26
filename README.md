@@ -169,8 +169,6 @@ While Yatri 2.0 is fully operational, scaling this monolithic layout into an ind
 
 
 *Architected and developed by Aditya Sharma.*
-***
 
-How does this expanded preview look for your portfolio?
 
 ```
